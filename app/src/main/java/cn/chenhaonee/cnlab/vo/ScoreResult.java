@@ -5,16 +5,16 @@ package cn.chenhaonee.cnlab.vo;
  */
 
 public class ScoreResult {
-    private String git_utl;
+    private String git_url;
     private int score;
     private boolean scored;
 
-    public String getGit_utl() {
-        return git_utl;
+    public String getGit_url() {
+        return git_url;
     }
 
-    public void setGit_utl(String git_utl) {
-        this.git_utl = git_utl;
+    public void setGit_url(String git_url) {
+        this.git_url = git_url;
     }
 
     public int getScore() {

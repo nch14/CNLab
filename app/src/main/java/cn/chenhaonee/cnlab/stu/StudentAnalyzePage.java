@@ -56,8 +56,8 @@ public class StudentAnalyzePage extends ContentFragment {
         Button button = (Button) rootView.findViewById(R.id.search_button);
         button.setOnClickListener(v -> {
             try {
-                int assignmentId = Integer.parseInt(assignmentIdView.getText().toString());
-                int studentId = Integer.parseInt(studentIdView.getText().toString());
+                assignmentId = Integer.parseInt(assignmentIdView.getText().toString());
+                studentId = Integer.parseInt(studentIdView.getText().toString());
                 new LoadAsyncTask().execute(HttpHelper.getStuAnalyze(assignmentId, studentId));
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "请检查输入参数", Toast.LENGTH_SHORT).show();
@@ -69,35 +69,6 @@ public class StudentAnalyzePage extends ContentFragment {
     private void updateView() {
         mAdpater = new TaskAdapter(data);
         mClassrooms.setAdapter(mAdpater);
-        mClassrooms.setOnItemClickListener((parent, view, position, id) -> {
-            QuestionResult questionResult = data.get(position);
-            int questionId = questionResult.getQuestionId();
-            AsyncTask task = new AsyncTask<String, Void, String>() {
-                @Override
-                protected String doInBackground(String... params) {
-                    Request request = HttpHelper.builder().url(params[0]).build();
-                    Response response = HttpHelper.takeTask(request);
-                    if (response.isSuccessful()) {
-                        try {
-                            String result = response.body().string();
-                            ObjectMapper objectMapper = new ObjectMapper();
-                            String readme = objectMapper.readValue(result, Readme.class).getContent();
-                            return readme;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    return "找不到对应的README文件";
-                }
-
-                @Override
-                protected void onPostExecute(String content) {
-                    Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
-                }
-            };
-
-            task.execute(HttpHelper.getGetReadme(assignmentId, studentId, questionId));
-        });
     }
 
     class LoadAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -142,11 +113,15 @@ public class StudentAnalyzePage extends ContentFragment {
 
             TextView titleBindId = (TextView) convertView.findViewById(R.id.title_id);
             titleBindId.setText(questionResult.getQuestionTitle() + "(" + questionResult.getQuestionId() + ")");
-
+            titleBindId.setOnClickListener(v -> {
+                int questionId = questionResult.getQuestionId();
+                String url = HttpHelper.getGetReadme(assignmentId, studentId, questionId);
+                new GetReadmeTask().execute(url);
+            });
             //ScoreResult
 
             TextView taskId = (TextView) convertView.findViewById(R.id.git_url_score_result);
-            taskId.setText("GitURL:" + questionResult.getScoreResult().getGit_utl());
+            taskId.setText("GitURL:" + questionResult.getScoreResult().getGit_url());
 
             TextView taskName = (TextView) convertView.findViewById(R.id.score);
             taskName.setText("Score:" + questionResult.getScoreResult().getScore());
@@ -187,6 +162,30 @@ public class StudentAnalyzePage extends ContentFragment {
             tested.setChecked(questionResult.getTestResult().isCompile_succeeded());
 
             return convertView;
+        }
+    }
+
+    class GetReadmeTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            Request request = HttpHelper.builder().url(params[0]).build();
+            Response response = HttpHelper.takeTask(request);
+            if (response.isSuccessful()) {
+                try {
+                    String result = response.body().string();
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String readme = objectMapper.readValue(result, Readme.class).getContent();
+                    return readme;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return "找不到对应的README文件";
+        }
+
+        @Override
+        protected void onPostExecute(String content) {
+            Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
         }
     }
 }

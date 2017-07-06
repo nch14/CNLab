@@ -99,6 +99,6 @@ public class HttpHelper {
     }
 
     public static String getGetReadme(int assignment, int studentId, int questionID) {
-        return (baseUrl + stuAnalyze).replace("{assignmentId}", "" + assignment).replace("{studentId}", "" + studentId).replace("{questionID}", "" + questionID);
+        return (baseUrl + getReadme).replace("{assignmentId}", "" + assignment).replace("{studentId}", "" + studentId).replace("{questionID}", "" + questionID);
     }
 }

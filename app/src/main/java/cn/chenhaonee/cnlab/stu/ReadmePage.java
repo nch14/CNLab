@@ -114,7 +114,7 @@ public class ReadmePage extends ContentFragment {
             //ScoreResult
 
             TextView taskId = (TextView) convertView.findViewById(R.id.git_url_score_result);
-            taskId.setText("GitURL:" + questionResult.getScoreResult().getGit_utl());
+            taskId.setText("GitURL:" + questionResult.getScoreResult().getGit_url());
 
             TextView taskName = (TextView) convertView.findViewById(R.id.score);
             taskName.setText("Score:" + questionResult.getScoreResult().getScore());
