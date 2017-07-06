@@ -1,10 +1,12 @@
 package cn.chenhaonee.cnlab.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by chenhaonee on 2017/6/19.
  */
 
-public class Question {
+public class Question implements Serializable{
     private int id;
     private String title;
     private String description;

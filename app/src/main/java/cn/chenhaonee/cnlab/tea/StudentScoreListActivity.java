@@ -31,8 +31,8 @@ public class StudentScoreListActivity extends Activity {
         setContentView(R.layout.activity_student_score_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
         toolbar.setTitle("成绩列表");
+        setActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> finish());
 

@@ -1,5 +1,6 @@
 package cn.chenhaonee.cnlab.tea;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import cn.chenhaonee.cnlab.R;
@@ -50,10 +52,13 @@ public class TeacherTaskPage extends ContentFragment {
         mAdpater = new TaskAdapter(data);
         mClassrooms.setAdapter(mAdpater);
         mClassrooms.setOnItemClickListener((parent, view, position, id) -> {
-          /*  Intent intent = new Intent(getActivity(), ClassroomDetailActivity.class);
-            startActivity(intent);*/
             Exam exam = data.get(position);
-            Toast.makeText(getActivity(), "This is "+ exam.getId(), Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getActivity(), QuestionsListActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("Question", (Serializable) exam.getQuestions());
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 

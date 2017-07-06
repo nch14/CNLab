@@ -1,10 +1,12 @@
 package cn.chenhaonee.cnlab.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by chenhaonee on 2017/6/19.
  */
 
-public class Creator {
+public class Creator implements Serializable {
     private int id;
     private String username;
     private String name;

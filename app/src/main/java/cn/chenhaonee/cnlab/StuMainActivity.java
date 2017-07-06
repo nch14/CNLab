@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toolbar;
 
@@ -13,16 +14,21 @@ import cn.chenhaonee.cnlab.stu.ContentFragment;
 
 public class StuMainActivity extends Activity {
 
+    private Toolbar toolbar;
     private ContentFragment currentContentFragment;
+    private View spinner;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
         currentContentFragment = null;
 
         switch (item.getItemId()) {
             case R.id.navigation_home:
+                addView();
                 currentContentFragment = ContentFragment.newInstance(1);
                 break;
             case R.id.navigation_dashboard:
+                removeView();
                 currentContentFragment = ContentFragment.newInstance(2);
                 break;
         }
@@ -39,13 +45,23 @@ public class StuMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stu_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        spinner = this.getLayoutInflater().inflate(R.layout.spinner, null, false);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
 
+        mTaskTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mItems);
+        mTaskTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    }
+
+
+    private void addView() {
+        LinearLayout layout = (LinearLayout) toolbar.findViewById(R.id.container_tool);
+        layout.addView(spinner);
         mTaskTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mItems);
         mTaskTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -61,6 +77,11 @@ public class StuMainActivity extends Activity {
 
             }
         });
+    }
+
+    private void removeView() {
+        LinearLayout layout = (LinearLayout) toolbar.findViewById(R.id.container_tool);
+        layout.removeView(spinner);
     }
 
 }

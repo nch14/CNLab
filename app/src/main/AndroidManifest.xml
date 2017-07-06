@@ -7,15 +7,15 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/gitlab"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/gitlab"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".WelcomeActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
+            android:theme="@style/AppTheme.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +30,10 @@
             android:name=".TeaMainActivity"
             android:label="@string/title_activity_tea_main" />
         <activity android:name=".tea.StudentsListActivity" />
-        <activity android:name=".tea.StudentScoreListActivity"></activity>
+        <activity
+            android:name=".tea.StudentScoreListActivity"
+            android:label="学生列表" />
+        <activity android:name=".tea.QuestionsListActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,7 +18,6 @@ import java.util.List;
 import cn.chenhaonee.cnlab.R;
 import cn.chenhaonee.cnlab.Student;
 import cn.chenhaonee.cnlab.dao.HttpHelper;
-import cn.chenhaonee.cnlab.vo.Exam;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -31,7 +31,17 @@ public class StudentsListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("学生列表");
+        setActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         listView = (ListView) findViewById(R.id.listView);
+        listView.setEmptyView(findViewById(R.id.emptyView));
+
+
         int id = getIntent().getExtras().getInt("id");
         new LoadAsyncTask().execute(HttpHelper.getTeaGetStuList(id));
     }
@@ -83,7 +93,7 @@ public class StudentsListActivity extends Activity {
             TextView taskStartAt = (TextView) convertView.findViewById(R.id.name_id_gender);
             taskStartAt.setText(student.getName() + "(" + student.getId() + ")" + "," + student.getGender());
 
-            TextView taskId = (TextView) convertView.findViewById(R.id.username);
+            TextView taskId = (TextView) convertView.findViewById(R.id.name);
             taskId.setText("Username:" + student.getUsername());
 
             TextView taskName = (TextView) convertView.findViewById(R.id.git_id);

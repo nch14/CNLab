@@ -53,8 +53,6 @@ public class AllClassPage extends ContentFragment {
             Intent intent = new Intent(getActivity(), StudentsListActivity.class);
             intent.putExtra("id", datas.get(position).getId());
             startActivity(intent);
-            String name = data.get(position);
-            Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
         });
     }
 
